@@ -32,6 +32,7 @@
 * J. Steinlage		2015Aug10   First rev
 * J. Steinlage      2017May08   Read TC ch, even if fault. Fix reg update fcn
 * J. Steinlage		2018Jul20	Removed DR and FLT pins since nobody uses them
+* R. Bennett		2020Aug9	add mode words for spi.transfer for my old pcduino 
 *
 * Playing With Fusion, Inc. invests time and resources developing open-source
 * code. Please support Playing With Fusion and continued open-source
@@ -63,9 +64,9 @@ uint8_t PWF_MAX31856::_sing_reg_read(uint8_t RegAdd)
 	digitalWrite(_cs, LOW);						// set pin low to start talking to IC
 	// next pack address byte
 	// bits 7:4 are 0 for read, register is in bits 3:0... format 0Xh
-	SPI.transfer((RegAdd & 0x0F));				// write address
+	SPI.transfer((RegAdd & 0x0F),SPI_CONTINUE);				// write address
 	// then read register data
-	uint8_t RegData = SPI.transfer(0x00); 		// read register data from IC
+	uint8_t RegData = SPI.transfer(0x00,SPI_LAST); 		// read register data from IC
 	digitalWrite(_cs, HIGH);					// set pin high to end SPI session
 	
 	return RegData;
@@ -85,8 +86,8 @@ void PWF_MAX31856::_sing_reg_write(uint8_t RegAdd, uint8_t BitMask, uint8_t RegD
 	digitalWrite(_cs, LOW);							// set pin low to start talking to IC
 	// next pack address byte
 	// bits 7:4 are 1000b for read, register is in bits 3:0... format 8Xh
-	SPI.transfer((RegAdd & 0x0F) | 0x80);			// simple write, nothing to read back
-	SPI.transfer(NewRegData); 						// write register data to IC
+	SPI.transfer((RegAdd & 0x0F) | 0x80,SPI_CONTINUE);			// simple write, nothing to read back
+	SPI.transfer(NewRegData,SPI_LAST); 						// write register data to IC
 	digitalWrite(_cs, HIGH);						// set pin high to end SPI session
 }
 
