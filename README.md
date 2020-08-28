@@ -1,8 +1,6 @@
 # PWFusion_MAX31856
-![SEN-30005-K ISO](http://www.playingwithfusion.com/include/getimg.php?imgid=1276)
-![SEN-30006-J ISO](http://www.playingwithfusion.com/include/getimg.php?imgid=1292)
-![SEN-30007-T ISO](http://www.playingwithfusion.com/include/getimg.php?imgid=1324)
-![SEN-30008-ST ISO](http://www.playingwithfusion.com/include/getimg.php?imgid=1334)
+Forked by yttiktak to provide fix to spi calls, modified to use two parameters.
+
 
 Note: all thermocouple interface types are available for each board variant
 
